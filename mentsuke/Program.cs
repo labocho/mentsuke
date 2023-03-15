@@ -13,7 +13,7 @@ namespace mentsuke {
       var writer = new PdfWriter("out.pdf");
       using var dest = new PdfDocument(writer);
 
-      Imposer.Impose(src, dest);
+      Imposer.Impose(src, dest, false);
 
       Console.WriteLine("Done.");
     }

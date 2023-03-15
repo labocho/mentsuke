@@ -11,15 +11,15 @@ namespace mentsuke
     readonly PdfDocument src;
     readonly PdfDocument dest;
 
-    public static void Impose(string src, string dest)
+    public static void Impose(string src, string dest, bool firstPageIsLeft)
     {
       using var srcDoc = new PdfDocument(new PdfReader(src));
       using var destDoc = new PdfDocument(new PdfWriter(dest));
-      new Imposer(srcDoc, destDoc).Impose();
+      new Imposer(srcDoc, destDoc).Impose(firstPageIsLeft);
     }
 
-    public static void Impose(PdfDocument src, PdfDocument dest) {
-      new Imposer(src, dest).Impose();
+    public static void Impose(PdfDocument src, PdfDocument dest, bool firstPageIsLeft) {
+      new Imposer(src, dest).Impose(firstPageIsLeft);
     }
 
     public Imposer(PdfDocument _src, PdfDocument _dest)
@@ -28,7 +28,7 @@ namespace mentsuke
       dest = _dest;
     }
 
-    public void Impose() {
+    public void Impose(bool firstPageIsLeft) {
       var pageSizes = new Dictionary<string, PageSize> {
         { "a4", new PageSize(mm2pt(210), mm2pt(297)) },
         { "a3", new PageSize(mm2pt(297), mm2pt(420)) },
@@ -39,7 +39,7 @@ namespace mentsuke
       var destSize = pageSizes["a3+r"];
       dest.SetDefaultPageSize(destSize);
 
-      var pn = TwoPagesPerPaper.SortPageNumber(src.GetNumberOfPages(), false);
+      var pn = TwoPagesPerPaper.SortPageNumber(src.GetNumberOfPages(), firstPageIsLeft);
       var n = pn.Count;
       for (var i = 0; i < n; i += 2)
       {

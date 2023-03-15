@@ -18,7 +18,7 @@ public class HomeController : Controller
         return View();
     }
 
-    public IActionResult Impose(IFormFile file)
+    public IActionResult Impose(IFormFile file, string firstPageIsLeft)
     {
         var src = Path.GetTempFileName();
         var srcStream = new FileStream(src, FileMode.Create, FileAccess.ReadWrite);
@@ -26,7 +26,7 @@ public class HomeController : Controller
         srcStream.Close();
 
         var dest = Path.GetTempFileName();
-        mentsuke.Imposer.Impose(src, dest);
+        mentsuke.Imposer.Impose(src, dest, firstPageIsLeft == "on");
 
         var destStream = new FileStream(dest, FileMode.Open, FileAccess.Read);
         return File(destStream, "application/pdf", file.FileName);
