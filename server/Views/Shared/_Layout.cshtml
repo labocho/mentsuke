@@ -1,0 +1,90 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <!-- <title>@ViewData["Title"] - server</title>
+    <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
+    <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
+    <link rel="stylesheet" href="~/server.styles.css" asp-append-version="true" /> -->
+
+    <meta content='IE=edge' http-equiv='X-UA-Compatible'>
+    <title>mentsuke</title>
+    <link crossorigin='anonymous' href='https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css'
+          integrity='sha384-1q8mTJOASx8j1Au+a5WDVnPi2lkFfwwEAa8hDDdjZlpLegxhjVME1fgjWPGmkzs7' rel='stylesheet'>
+    <style>
+        body {
+            font-family: "Helvetica Neue", Helvetica, Arial, "Hiragino Sans", sans-serif;
+        }
+
+        select.form-control {
+            width: auto;
+        }
+
+        .checkbox.disabled {
+            color: #999;
+        }
+
+        .hr {
+            border-top: 1px solid rgba(0, 0, 0, 0.1);
+            margin: 30px 0;
+        }
+
+        .documentation {
+            max-width: 600px;
+        }
+
+            .documentation p {
+                margin-bottom: 0;
+            }
+
+            .documentation h2 {
+                font-size: 20px;
+                margin-top: 40px;
+                margin-bottom: 15px;
+            }
+
+                .documentation h2:first-child {
+                    margin-top: 0;
+                }
+
+            .documentation h3 {
+                font-size: 100%;
+                font-weight: bold;
+                margin-top: 20px;
+                margin-bottom: 10px;
+            }
+
+            .documentation ol {
+                margin: 10px 0;
+                padding-left: 1.5em;
+            }
+
+                .documentation ol > li {
+                    margin-bottom: 5px;
+                }
+
+                    .documentation ol > li > ul {
+                        margin: 10px 0;
+                    }
+
+            .documentation ul {
+                padding-left: 1em;
+            }
+
+        footer {
+            padding-bottom: 30px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <main role="main" class="pb-3">
+            @RenderBody()
+        </main>
+    </div>
+
+    @await RenderSectionAsync("Scripts", required: false)
+</body>
+</html>
+

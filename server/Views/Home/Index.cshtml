@@ -1,0 +1,155 @@
+﻿@{
+    ViewData["Title"] = "Home Page";
+}
+
+<div class='container'>
+    <h1>mentsuke</h1>
+    <form action='/impose' enctype='multipart/form-data' method='post'>
+        <div class='form-group'>
+            <label>入力</label>
+            <input name='file' required type='file'>
+        </div>
+        <div class='form-group'>
+            <label>出力サイズ</label>
+            <select class='form-control' name='size'>
+                <option value='a3'>A3 (297x420mm)</option>
+                <option value='a3+'>A3ノビ (329x483mm)</option>
+                <option value='a4'>A4 (210x297mm)</option>
+                <option value='a5'>A5 (148x210mm)</option>
+                <option value='a6'>A6 (105x148mm)</option>
+                <option value='b3'>B3 (364x515mm)</option>
+                <option value='b4'>B4 (257x364mm)</option>
+                <option value='b5'>B5 (182x257mm)</option>
+                <option value='b6'>B6 (128x182mm)</option>
+                <option value='a3r'>A3 横 (420x297mm)</option>
+                <option selected value='a3+r'>A3ノビ 横 (483x329mm)</option>
+                <option value='a4r'>A4 横 (297x210mm)</option>
+                <option value='a5r'>A5 横 (210x148mm)</option>
+                <option value='a6r'>A6 横 (148x105mm)</option>
+                <option value='b3r'>B3 横 (515x364mm)</option>
+                <option value='b4r'>B4 横 (364x257mm)</option>
+                <option value='b5r'>B5 横 (257x182mm)</option>
+                <option value='b6r'>B6 横 (182x128mm)</option>
+                <option value='kikubai'>KIKUBAI (227x304mm)</option>
+                <option value='kikubai-alt'>KIKUBAI-ALT (218x304mm)</option>
+            </select>
+        </div>
+        <div class='form-group'>
+            <label>拡大・縮小</label>
+            <select class='form-control' name='zoom'>
+                <option selected value='1'>しない</option>
+                <option value='0.7071067811865475'>面積 1/2 (70%)</option>
+            </select>
+        </div>
+        <div class='form-group'>
+            <label>紙一面あたりのページ数</label>
+            <div class='radio-group'>
+                <label class='radio-inline'>
+                    <input name='pages' type='radio' value='1'>
+                    1 ページ
+                </label>
+                <label class='radio-inline'>
+                    <input checked name='pages' type='radio' value='2'>
+                    2 ページ
+                </label>
+                <label class='radio-inline'>
+                    <input name='pages' type='radio' value='4'>
+                    4 ページ
+                </label>
+            </div>
+        </div>
+        <div class='form-group'>
+            <label>切り取りマージン</label>
+            <div class='input-group' style='width: 120px;'>
+                <input class='form-control' min='0.0' name='space_between_spread' step='0.1' type='number' value='10.0'>
+                <div class='input-group-addon'>mm</div>
+            </div>
+        </div>
+        <div class='form-group'>
+            <div class='checkbox'>
+                <label>
+                    <input name='make_first_page_left' type='checkbox'>
+                    最初のページが左側
+                </label>
+            </div>
+        </div>
+        <div class='form-group'>
+            <div class='checkbox'>
+                <label>
+                    <input checked name='trim_mark' type='checkbox'>
+                    トリムマークをつける
+                </label>
+            </div>
+        </div>
+        <button class='btn btn-primary' type='submit'>変換</button>
+    </form>
+    <hr class='hr'>
+    <div class='documentation'>
+        <h2>これはなに?</h2>
+        <p>PDF の原稿を中綴じ製本用に変換するサービスです。</p>
+        <h2>何ができるの?</h2>
+        <h3>原稿サイズの変更</h3>
+        <p>原稿のサイズを変更できます。</p>
+        <p>サイズが不揃いなのを A4 に統一する、A4 の原稿を菊倍判にする、などの処理ができます。</p>
+        <p>拡大縮小は行わず、中央に配置します。</p>
+        <h3>面付け</h3>
+        <p>両面印刷して中綴じできるように原稿を配置できます。</p>
+        <p>A4 の原稿をもとに、A3 ノビに印刷すれば中綴じできる PDF を作る、などの処理ができます。</p>
+        <p>トリムマーク (トンボ) の有無、1 ページ目を見開きの左右どちらから始めるか、を選択できます。</p>
+        <h2>使用例</h2>
+        <p>原稿: A4、仕上がり: 菊倍判、印刷用紙: A3 ノビ の場合の手順を紹介します。</p>
+        <ol>
+            <li>"入力" に A4 の PDF を設定します。</li>
+            <li>
+                下記の設定で "変換" をクリックします。
+                <ul>
+                    <li>出力サイズ: 菊倍判</li>
+                    <li>紙一面あたりのページ数: 1</li>
+                    <li>トリムマークをつける: チェックしない</li>
+                </ul>
+            </li>
+            <li>2 でダウンロードした PDF を "入力" に設定します。</li>
+            <li>
+                下記の設定で "変換" をクリックします。
+                <ul>
+                    <li>出力サイズ: A3 ノビ 横</li>
+                    <li>紙一面あたりのページ数: 2</li>
+                    <li>トリムマークをつける: チェックする</li>
+                </ul>
+            </li>
+        </ol>
+        <p>4 でできた PDF を印刷して、中綴じ、裁断を行えば、冊子ができます。</p>
+        <hr class='hr'>
+        <footer>
+            developed by
+            <a href='https://twitter.com/labocho'>@@labocho</a>
+        </footer>
+    </div>
+</div>
+<script src='https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js'></script>
+<script crossorigin='anonymous' integrity='sha384-0mSbJDEHialfmuBBQP6A4Qrprq5OVfW37PRR3j5ELqxss1yVqOtnepnHVP9aJ7xS'
+        src='https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js'></script>
+<script>$(function () {
+  $("[name=pages]").on("change", function () {
+    $checkbox = $("[name=make_first_page_left]");
+    $checkboxContainer = $checkbox.closest(".checkbox");
+
+    if ($("[name=pages]:checked").val() === "1") {
+      $checkbox.attr("disabled", "disabled");
+      $checkboxContainer.addClass("disabled");
+    } else {
+      $checkbox.removeAttr("disabled");
+      $checkboxContainer.removeClass("disabled");
+    }
+
+    $spaceBetweenSpreadField = $("[name=space_between_spread]");
+
+    if ($("[name=pages]:checked").val() === "4") {
+      $spaceBetweenSpreadField.removeAttr("disabled");
+    } else {
+      $spaceBetweenSpreadField.attr("disabled", "disabled");
+    }
+  });
+  $("[name=pages]").change();
+});</script>
+

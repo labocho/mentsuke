@@ -11,6 +11,13 @@ namespace mentsuke
     readonly PdfDocument src;
     readonly PdfDocument dest;
 
+    public static void Impose(string src, string dest)
+    {
+      using var srcDoc = new PdfDocument(new PdfReader(src));
+      using var destDoc = new PdfDocument(new PdfWriter(dest));
+      new Imposer(srcDoc, destDoc).Impose();
+    }
+
     public static void Impose(PdfDocument src, PdfDocument dest) {
       new Imposer(src, dest).Impose();
     }
