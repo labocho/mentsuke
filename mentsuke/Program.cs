@@ -191,6 +191,39 @@ namespace mentsuke {
         canvas.Stroke();
       }
 
+      int IndexOfPage(int i, int numberOfPages)
+      {
+        return (i + numberOfPages) % numberOfPages;
+      }
+      List<int> SortPageNumber(int numberOfPages, bool firstPageIsLeft = false)
+      {
+        var pn = Enumerable.Range(1, numberOfPages).ToList();
+
+        // 8の倍数ページに
+        if (firstPageIsLeft) {
+          pn.Insert(0, int.MinValue);
+        }
+        while (pn.Count % 8 != 0)
+        {
+          pn.Add(int.MinValue);
+        }
+
+        var buffer = new List<int>();
+
+        var n = pn.Count / 4;
+        for (int i = 0; i < n; i++)
+        {
+          buffer.Add(pn[IndexOfPage(-(i * 2) - 1, pn.Count)]); // -1, -3
+          buffer.Add(pn[IndexOfPage(+(i * 2) + 0, pn.Count)]); //  0,  2
+          buffer.Add(pn[IndexOfPage(+(i * 2) + 1, pn.Count)]); //  1,  3
+          buffer.Add(pn[IndexOfPage(-(i * 2) - 2, pn.Count)]); // -2,  0
+        }
+
+        return buffer;
+      }
+
+      Console.WriteLine("Begin.");
+
       var pdfReader = new iText.Kernel.Pdf.PdfReader(args[0]);
       var src = new PdfDocument(pdfReader);
 
@@ -198,13 +231,25 @@ namespace mentsuke {
       var dest = new PdfDocument(writer);
       var destSize = pageSizes["a3+r"];
       dest.SetDefaultPageSize(destSize);
-
-      var page = dest.AddNewPage();
-      PutPageLeft(dest, page, src.GetPage(1));
-      PutPageRight(dest, page, src.GetPage(2));
-
       var srcSize = src.GetPage(1).GetPageSize();
-      DrawTrimMark(dest, page, srcSize.GetWidth() * 2, srcSize.GetHeight(), destSize.GetWidth(), destSize.GetHeight());
+
+      var pn = SortPageNumber(src.GetNumberOfPages(), false);
+      var n = pn.Count;
+      for (var i = 0; i < n; i += 2)
+      {
+        var page = dest.AddNewPage();
+        if (pn[i] != int.MinValue)
+        {
+          Console.WriteLine("Writing page: {0}", pn[i]);
+          PutPageLeft(dest, page, src.GetPage(pn[i]));
+        }
+        if (pn[i + 1] != int.MinValue)
+        {
+          Console.WriteLine("Writing page: {0}", pn[i + 1]);
+          PutPageRight(dest, page, src.GetPage(pn[i + 1]));
+        }
+        DrawTrimMark(dest, page, srcSize.GetWidth() * 2, srcSize.GetHeight(), destSize.GetWidth(), destSize.GetHeight());
+      }
 
       dest.Close();
       src.Close();
