@@ -3,6 +3,7 @@
 }
 
 <div class='container'>
+    <div class="alert alert-danger" style="margin-top: 2em;">現在、作業中のため一部の機能を制限しています</div>
     <h1>mentsuke</h1>
     <form action='/impose' enctype='multipart/form-data' method='post'>
         <div class='form-group'>
@@ -11,7 +12,7 @@
         </div>
         <div class='form-group'>
             <label>出力サイズ</label>
-            <select class='form-control' name='size'>
+            <select class='form-control' name='size' disabled>
                 <option value='a3'>A3 (297x420mm)</option>
                 <option value='a3+'>A3ノビ (329x483mm)</option>
                 <option value='a4'>A4 (210x297mm)</option>
@@ -36,7 +37,7 @@
         </div>
         <div class='form-group'>
             <label>拡大・縮小</label>
-            <select class='form-control' name='zoom'>
+            <select class='form-control' name='zoom' disabled>
                 <option selected value='1'>しない</option>
                 <option value='0.7071067811865475'>面積 1/2 (70%)</option>
             </select>
@@ -45,15 +46,15 @@
             <label>紙一面あたりのページ数</label>
             <div class='radio-group'>
                 <label class='radio-inline'>
-                    <input name='pages' type='radio' value='1'>
+                    <input name='pages' type='radio' value='1' disabled>
                     1 ページ
                 </label>
                 <label class='radio-inline'>
-                    <input checked name='pages' type='radio' value='2'>
+                    <input checked name='pages' type='radio' value='2' disabled>
                     2 ページ
                 </label>
                 <label class='radio-inline'>
-                    <input name='pages' type='radio' value='4'>
+                    <input name='pages' type='radio' value='4' disabled>
                     4 ページ
                 </label>
             </div>
@@ -76,7 +77,7 @@
         <div class='form-group'>
             <div class='checkbox'>
                 <label>
-                    <input checked name='trim_mark' type='checkbox'>
+                    <input checked name='trim_mark' type='checkbox' disabled>
                     トリムマークをつける
                 </label>
             </div>
