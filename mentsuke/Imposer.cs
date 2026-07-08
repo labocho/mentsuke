@@ -11,15 +11,15 @@ namespace mentsuke
     readonly PdfDocument src;
     readonly PdfDocument dest;
 
-    public static void Impose(string src, string dest, bool firstPageIsLeft, string size)
+    public static void Impose(string src, string dest, bool firstPageIsLeft, string size, bool trimMark)
     {
       using var srcDoc = new PdfDocument(new PdfReader(src));
       using var destDoc = new PdfDocument(new PdfWriter(dest));
-      new Imposer(srcDoc, destDoc).Impose(firstPageIsLeft, size);
+      new Imposer(srcDoc, destDoc).Impose(firstPageIsLeft, size, trimMark);
     }
 
-    public static void Impose(PdfDocument src, PdfDocument dest, bool firstPageIsLeft, string size) {
-      new Imposer(src, dest).Impose(firstPageIsLeft, size);
+    public static void Impose(PdfDocument src, PdfDocument dest, bool firstPageIsLeft, string size, bool trimMark) {
+      new Imposer(src, dest).Impose(firstPageIsLeft, size, trimMark);
     }
 
     public Imposer(PdfDocument _src, PdfDocument _dest)
@@ -28,7 +28,7 @@ namespace mentsuke
       dest = _dest;
     }
 
-    public void Impose(bool firstPageIsLeft, string size) {
+    public void Impose(bool firstPageIsLeft, string size, bool trimMark) {
       var pageSizes = new Dictionary<string, PageSize> {
         { "a4", new PageSize(mm2pt(210), mm2pt(297)) },
         { "a3", new PageSize(mm2pt(297), mm2pt(420)) },
@@ -56,7 +56,11 @@ namespace mentsuke
           Console.WriteLine("Writing page: {0}", pn[i + 1]);
           PutPageRight(page, src.GetPage(pn[i + 1]));
         }
-        TrimMark.Draw(page, srcSize.GetWidth() * 2, srcSize.GetHeight(), destSize.GetWidth(), destSize.GetHeight());
+
+        if (trimMark)
+        {
+          TrimMark.Draw(page, srcSize.GetWidth() * 2, srcSize.GetHeight(), destSize.GetWidth(), destSize.GetHeight());
+        }
       }
     }
 
