@@ -11,15 +11,15 @@ namespace mentsuke
     readonly PdfDocument src;
     readonly PdfDocument dest;
 
-    public static void Impose(string src, string dest, bool firstPageIsLeft)
+    public static void Impose(string src, string dest, bool firstPageIsLeft, string size)
     {
       using var srcDoc = new PdfDocument(new PdfReader(src));
       using var destDoc = new PdfDocument(new PdfWriter(dest));
-      new Imposer(srcDoc, destDoc).Impose(firstPageIsLeft);
+      new Imposer(srcDoc, destDoc).Impose(firstPageIsLeft, size);
     }
 
-    public static void Impose(PdfDocument src, PdfDocument dest, bool firstPageIsLeft) {
-      new Imposer(src, dest).Impose(firstPageIsLeft);
+    public static void Impose(PdfDocument src, PdfDocument dest, bool firstPageIsLeft, string size) {
+      new Imposer(src, dest).Impose(firstPageIsLeft, size);
     }
 
     public Imposer(PdfDocument _src, PdfDocument _dest)
@@ -28,15 +28,17 @@ namespace mentsuke
       dest = _dest;
     }
 
-    public void Impose(bool firstPageIsLeft) {
+    public void Impose(bool firstPageIsLeft, string size) {
       var pageSizes = new Dictionary<string, PageSize> {
         { "a4", new PageSize(mm2pt(210), mm2pt(297)) },
         { "a3", new PageSize(mm2pt(297), mm2pt(420)) },
+        { "a4r", new PageSize(mm2pt(297), mm2pt(210)) },
+        { "a3r", new PageSize(mm2pt(420), mm2pt(297)) },
         { "a3+r", new PageSize(mm2pt(483), mm2pt(329)) },
       };
 
       var srcSize = src.GetPage(1).GetPageSize();
-      var destSize = pageSizes["a3+r"];
+      var destSize = pageSizes[size];
       dest.SetDefaultPageSize(destSize);
 
       var pn = TwoPagesPerPaper.SortPageNumber(src.GetNumberOfPages(), firstPageIsLeft);
